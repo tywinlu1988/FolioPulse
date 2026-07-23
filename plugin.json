@@ -1,0 +1,16 @@
+{
+  "name": "foliopulse",
+  "description": "AI 驱动的投资标的推荐引擎。输入客户画像，输出结构化推荐列表及客户交付物料。",
+  "version": "0.1.0",
+  "author": { "name": "Tywin Lu", "email": "tywinlu1988@users.noreply.github.com" },
+  "homepage": "https://github.com/tywinlu1988/FolioPulse",
+  "repository": "https://github.com/tywinlu1988/FolioPulse",
+  "license": "AGPL-3.0 + Commercial",
+  "keywords": ["investment", "portfolio", "recommendation", "wealth-management", "china-markets"],
+  "category": "finance",
+  "skills": [
+    "./dev/.claude/skills/profile-intake",
+    "./dev/.claude/skills/recommend-engine",
+    "./dev/.claude/skills/recommend-qa"
+  ]
+}

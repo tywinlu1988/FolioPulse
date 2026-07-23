@@ -55,6 +55,7 @@ scratch/
 .claude/skills/third-party/
 skill-references/
 third-party-skills/
+.superpowers/
 
 # --- 标准忽略 ---
 # 依赖

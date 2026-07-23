@@ -1,40 +1,59 @@
 # FolioPulse
 
-Investment portfolio tracking, analysis, and monitoring skill for Claude Code and OpenAI Codex.
+面向商业银行客户经理的 AI 驱动投资标的推荐引擎。支持 Claude Code 和 OpenAI Codex。
 
-## What is FolioPulse?
+## 这是什么？
 
-FolioPulse is an AI-powered investment portfolio intelligence skill. It helps you track holdings, analyze asset allocation, calculate returns, monitor risks, and generate portfolio health reports — all through natural conversation with your AI coding assistant.
+FolioPulse 帮助银行客户经理为客户推荐二级市场投资标的（基金、股票、ETF、理财产品等）。
+输入客户画像（风险等级、投资金额、期限、目标），输出结构化推荐列表及客户交付物料。
 
-## Features
+## 核心能力
 
-- **Multi-Asset Tracking** — stocks, ETFs, crypto, mutual funds, cash
-- **Allocation Analysis** — sector, geography, asset class breakdowns
-- **Return Calculations** — TWR, MWR, benchmark comparison
-- **Risk Metrics** — Sharpe ratio, VaR, correlation analysis, drawdowns
-- **Smart Alerts** — price movements, allocation drift, threshold breaches
-- **Report Generation** — summary dashboards and detailed breakdowns
+- **智能推荐** — 规则过滤 + 多因子打分，覆盖全品类投资产品
+- **适当性管理** — 内置中国监管规则校验，逐笔风险匹配留痕
+- **客户交付物** — 一键生成推荐清单、标的报告、问答清单、话术清单、配置建议书
+- **过程可追溯** — 回溯日志记录每一步决策，可复盘可审计
 
-## Quick Start
+## 三阶段管道
 
-1. Install the skill into your Claude Code or Codex environment
-2. Create a `foliopulse.config.json` with your API keys
-3. Start a conversation: "Load my portfolio and show me the allocation"
+```
+画像摄入 → 推荐引擎 → 推荐质检
+(profile-intake → recommend-engine → recommend-qa)
+```
 
-## License
+每个阶段产出 YAML 结构化制品，在 Skill 间传递。
 
-FolioPulse is **source-available** under a dual-license model:
+## 两段式交付
 
-- **AGPL-3.0** — Free for personal, educational, and AGPL-compatible use
-- **Commercial License** — Required for proprietary/commercial use without AGPL obligations
+1. **CLI TL;DR 速览** — 客户经理在终端快速查看推荐 Top 5 + 风险灯号
+2. **本地落盘** — 确认后生成完整交付物目录（全中文 Markdown），可打印交付客户
 
-See [LICENSE](./LICENSE) for full details.  
-For commercial licensing: contact the author.
+## 快速开始
 
-## Author
+```bash
+# 安装
+pip install -e .
 
-Created by Tywin Lu
+# 运行测试
+pytest tests/ -v
+
+# 一致性检查
+python scripts/consistency_check.py
+```
+
+## 许可
+
+FolioPulse 采用双许可模式：
+
+- **AGPL-3.0** — 个人、教育及 AGPL 兼容场景免费使用
+- **商业授权** — 商业闭源使用需单独授权
+
+详见 [LICENSE](./LICENSE)。
+
+## 作者
+
+Tywin Lu
 
 ---
 
-*FolioPulse provides data analysis, not financial advice. Always consult a qualified financial advisor before making investment decisions.*
+*FolioPulse 提供数据分析，不构成投资建议。投资有风险，入市需谨慎。*
