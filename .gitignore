@@ -10,14 +10,13 @@
 logs/
 log/
 
-# 测试用例（研发过程中产生的测试）
-tests/
-test/
+# 测试用例（研发过程中产生的临时测试，项目单元测试不受影响）
+# 注意：tests/ 目录为项目本身单元测试，需正常提交
+test_scratch/
 __tests__/
-*.test.*
 *.spec.*
-test_*/
-*_test.*
+scratch_test*/
+tmp_test*/
 
 # 案例 / 示例（研发调试用）
 examples/
