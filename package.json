@@ -1,6 +1,6 @@
 {
   "name": "foliopulse",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "FolioPulse — AI 驱动的投资标的推荐引擎。面向商业银行客户经理的智能投资推荐 Skill。",
   "license": "SEE LICENSE IN LICENSE",
   "bin": { "foliopulse": "./bin/install.js" },
