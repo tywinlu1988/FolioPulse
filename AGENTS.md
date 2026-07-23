@@ -7,15 +7,25 @@ FolioPulse 是面向商业银行客户经理的 AI 驱动投资标的推荐引�
 
 | 技能 | 路径 | 用途 |
 |------|------|------|
-| profile-intake | .claude/skills/profile-intake/SKILL.md | 客户画像摄入，4 问路由，生成画像表 |
-| recommend-engine | .claude/skills/recommend-engine/SKILL.md | 推荐引擎，过滤打分排序 |
-| recommend-qa | .claude/skills/recommend-qa/SKILL.md | 推荐质检，适当性校验，合规签章 |
+| profile-intake | .claude/skills/profile-intake/SKILL.md | 客户画像摄入，预检 + 4 问路由，生成画像表 |
+| recommend-engine | .claude/skills/recommend-engine/SKILL.md | 推荐引擎，五步管道（数据拉取→过滤→打分→双轨→排序） |
+| recommend-qa | .claude/skills/recommend-qa/SKILL.md | 推荐质检 + 两段式交付（TL;DR → RM 确认 → 生成交付物） |
 
-## 三阶段管道
+## 四阶段管道
 
-profile-intake → recommend-engine → recommend-qa
+```
+profile-intake → recommend-engine → recommend-qa(S3) → recommend-qa(S4)
+     │                 │                    │                │
+  Profile Sheet    Recommend           QA Verdict      交付物落盘
+  (YAML)          Artifact (YAML)      + L0 TL;DR      本地目录
+```
 
-每个阶段产出 YAML 制品，通过制品传递结构化数据。
+### 链式调用规则
+
+1. **S1 → S2 自动衔接**：画像表产出后立即移交 recommend-engine，不等待用户确认
+2. **S2 → S3 自动衔接**：推荐制品产出后立即移交 recommend-qa，不等待用户确认
+3. **S3 → S4 需 RM 确认**：TL;DR 展示后等 RM 选择 [3]，才进入交付物生成
+4. **制品传递**：各阶段通过 YAML 制品传递结构化数据，Skill 间不重复解析
 
 ## 单一真相源
 
@@ -36,6 +46,5 @@ Skill 文件和 Python 代码均引用引擎文档段落，绝不自行定义数
 ## 验证命令
 
 ```bash
-pytest tests/ -v
 python scripts/consistency_check.py
 ```
