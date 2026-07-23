@@ -6,20 +6,19 @@
 
 [![Version](https://img.shields.io/badge/version-0.1.0-blue)](https://github.com/tywinlu1988/FolioPulse)
 [![License](https://img.shields.io/badge/license-AGPL--3.0%20%2B%20Commercial-green)](./LICENSE)
-[![Tests](https://img.shields.io/badge/tests-45%2F45%20passed-brightgreen)](./tests/)
 [![Python](https://img.shields.io/badge/python-3.11%2B-blue)](./pyproject.toml)
 
 ---
 
 ## 快速安装
 
-### 方式一：npx 一键安装（推荐）
+### 方式一：npx 从 GitHub 安装（推荐）
 
 ```bash
-npx foliopulse
+npx github:tywinlu1988/FolioPulse --platform claude
 ```
 
-安装脚本会将 FolioPulse 注册到当前目录的 Claude Code / Codex 技能系统中。
+支持平台：`claude` / `codex` / `cursor` / `gemini` / `opencode`
 
 ### 方式二：Git 克隆
 
@@ -31,7 +30,7 @@ pip install -e .
 
 ### 方式三：GitHub Release
 
-从 [Releases](https://github.com/tywinlu1988/FolioPulse/releases) 下载 `foliopulse-v{version}.zip`，解压到目标目录后运行：
+从 [Releases](https://github.com/tywinlu1988/FolioPulse/releases) 下载 `foliopulse-v{version}.zip`，解压后运行：
 
 ```bash
 pip install -e .
@@ -40,8 +39,7 @@ pip install -e .
 ### 验证安装
 
 ```bash
-pytest tests/ -v           # 45 个测试应全部通过
-python scripts/consistency_check.py   # 一致性检查应全部通过
+python scripts/consistency_check.py   # 应输出"全部通过"
 ```
 
 ---
@@ -70,9 +68,9 @@ FolioPulse 帮助商业银行客户经理为客户推荐二级市场投资标的
 
 | 阶段 | 技能 | 职责 |
 |------|------|------|
-| **S1 画像摄入** | [profile-intake](./dev/.claude/skills/profile-intake/SKILL.md) | 4 问路由协议采集客户画像，生成 Profile Sheet YAML |
-| **S2 推荐引擎** | [recommend-engine](./dev/.claude/skills/recommend-engine/SKILL.md) | 规则过滤 → 多因子打分 → 双轨验证 → 排序+理由生成 |
-| **S3 推荐质检** | [recommend-qa](./dev/.claude/skills/recommend-qa/SKILL.md) | 5 项门禁校验（风险匹配/产品准入/客户约束/起投金额/期限匹配） |
+| **S1 画像摄入** | [profile-intake](./.claude/skills/profile-intake/SKILL.md) | 4 问路由协议采集客户画像，生成 Profile Sheet YAML |
+| **S2 推荐引擎** | [recommend-engine](./.claude/skills/recommend-engine/SKILL.md) | 规则过滤 → 多因子打分 → 双轨验证 → 排序+理由生成 |
+| **S3 推荐质检** | [recommend-qa](./.claude/skills/recommend-qa/SKILL.md) | 5 项门禁校验（风险匹配/产品准入/客户约束/起投金额/期限匹配） |
 
 ### S2 推荐管道四步详解
 
@@ -110,14 +108,14 @@ folio-{日期}-{客户姓名}/
 
 | 文档 | 用途 | 关键内容 |
 |------|------|---------|
-| [engine-overview.md](./dev/engine/engine-overview.md) | 架构总览 | 文档索引、流水线定义、反漂移约束 |
-| [product-taxonomy.md](./dev/engine/product-taxonomy.md) | 产品分类体系 | 10 种产品类型、适用因子、字段规范、风险等级 R1-R5 定义 |
-| [scoring-framework.md](./dev/engine/scoring-framework.md) | 多因子打分框架 | 股票 7 因子 + 基金 7 因子 + ETF 4 因子，含权重、归一化阈值、评分区间 |
-| [suitability-rules.md](./dev/engine/suitability-rules.md) | 适当性管理规则 | 风险匹配矩阵、投资者类型分类、5 项质检门禁、禁售名单、合规话术 |
-| [filter-rules.md](./dev/engine/filter-rules.md) | 规则过滤逻辑 | 6 阶段过滤执行顺序、过滤规则详情、备选池规则 |
-| [dual-track-methodology.md](./dev/engine/dual-track-methodology.md) | 双轨验证方法 | 轨 A 基本面 + 轨 B 市场信号、4 种冲突裁决规则 |
-| [output-layered.md](./dev/engine/output-layered.md) | 输出分层定义 | L0 速配卡 / L1 推荐列表 / L2 深度报告、CLI 模板、输出目录结构 |
-| [data-architecture.md](./dev/engine/data-architecture.md) | 数据架构 | 5 层数据源分层、Mode A/B 定义、适配器接口规范 |
+| [engine-overview.md](./engine/engine-overview.md) | 架构总览 | 文档索引、流水线定义、反漂移约束 |
+| [product-taxonomy.md](./engine/product-taxonomy.md) | 产品分类体系 | 10 种产品类型、适用因子、字段规范、风险等级 R1-R5 定义 |
+| [scoring-framework.md](./engine/scoring-framework.md) | 多因子打分框架 | 股票 7 因子 + 基金 7 因子 + ETF 4 因子，含权重、归一化阈值、评分区间 |
+| [suitability-rules.md](./engine/suitability-rules.md) | 适当性管理规则 | 风险匹配矩阵、投资者类型分类、5 项质检门禁、禁售名单、合规话术 |
+| [filter-rules.md](./engine/filter-rules.md) | 规则过滤逻辑 | 6 阶段过滤执行顺序、过滤规则详情、备选池规则 |
+| [dual-track-methodology.md](./engine/dual-track-methodology.md) | 双轨验证方法 | 轨 A 基本面 + 轨 B 市场信号、4 种冲突裁决规则 |
+| [output-layered.md](./engine/output-layered.md) | 输出分层定义 | L0 速配卡 / L1 推荐列表 / L2 深度报告、CLI 模板、输出目录结构 |
+| [data-architecture.md](./engine/data-architecture.md) | 数据架构 | 5 层数据源分层、Mode A/B 定义、适配器接口规范 |
 
 ---
 
@@ -141,13 +139,13 @@ folio-{日期}-{客户姓名}/
 
 | 编号 | 铁律 | 说明 |
 |------|------|------|
-| R1 | **禁止自创产品分类** | 所有类型引用 [product-taxonomy.md](./dev/engine/product-taxonomy.md) |
-| R2 | **禁止自定评分权重** | 所有因子权重引用 [scoring-framework.md](./dev/engine/scoring-framework.md) |
+| R1 | **禁止自创产品分类** | 所有类型引用 [product-taxonomy.md](./engine/product-taxonomy.md) |
+| R2 | **禁止自定评分权重** | 所有因子权重引用 [scoring-framework.md](./engine/scoring-framework.md) |
 | R3 | **禁止绕过适当性校验** | 每笔推荐须记录匹配规则 |
 | R4 | **禁止伪造数据** | 无数据来源标注"数据缺失" |
 | R5 | **禁止偏离画像表** | S2 严格按画像表参数执行 |
 | R6 | **禁止跳过质检** | 未经 QA 签章不得输出 |
-| R7 | **单一真相源** | 阈值和权重只存在于 [dev/engine/](./dev/engine/) |
+| R7 | **单一真相源** | 阈值和权重只存在于 [engine/](./engine/) |
 | R8 | **必录回溯** | 每次推荐生成完整 [回溯日志](#回溯日志设计) |
 
 ---
@@ -170,21 +168,17 @@ folio-{日期}-{客户姓名}/
 
 ```
 foliopulse/
-├── dev/
-│   ├── .claude/skills/        # 三阶段 Skill 链
-│   │   ├── profile-intake/    #   S1: 客户画像摄入
-│   │   ├── recommend-engine/  #   S2: 推荐引擎
-│   │   └── recommend-qa/      #   S3: 推荐质检
-│   ├── engine/                # 引擎文档（单一真相源，8 份）
-│   ├── templates/             # 交付物模板（5 份，全中文）
-│   └── profiles/              # 客户画像模板
-├── src/                       # Python 引擎（9 个模块）
+├── .claude/skills/            # 三阶段 Skill 链
+│   ├── profile-intake/        #   S1: 客户画像摄入
+│   ├── recommend-engine/      #   S2: 推荐引擎
+│   └── recommend-qa/          #   S3: 推荐质检
+├── engine/                    # 引擎文档（单一真相源，8 份）
+├── templates/                 # 交付物模板（5 份，全中文）
+├── profiles/                  # 客户画像模板
+├── src/                       # Python 引擎（7 个模块）
 │   └── adapters/              #   数据适配器层
-├── tests/                     # pytest 测试套件（45 个用例）
 ├── scripts/                   # 构建与检查工具
-├── docs/
-│   ├── specs/                 # 设计文档
-│   └── plans/                 # 实现计划
+├── bin/                       # npx 安装脚本
 ├── AGENTS.md                  # 跨 CLI 通用入口
 ├── plugin.json                # Marketplace 注册清单
 ├── pyproject.toml             # Python 构建配置

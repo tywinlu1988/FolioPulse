@@ -13,7 +13,7 @@ class BaseAdapter(ABC):
     """数据适配器抽象接口.
 
     所有数据源适配器必须实现此接口.
-    接口定义来自 dev/engine/data-architecture.md §适配器接口规范.
+    接口定义来自 engine/data-architecture.md §适配器接口规范.
     """
 
     @abstractmethod

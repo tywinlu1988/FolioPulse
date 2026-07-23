@@ -9,8 +9,8 @@
   "keywords": ["investment", "portfolio", "recommendation", "wealth-management", "china-markets"],
   "category": "finance",
   "skills": [
-    "./dev/.claude/skills/profile-intake",
-    "./dev/.claude/skills/recommend-engine",
-    "./dev/.claude/skills/recommend-qa"
+    "./.claude/skills/profile-intake",
+    "./.claude/skills/recommend-engine",
+    "./.claude/skills/recommend-qa"
   ]
 }

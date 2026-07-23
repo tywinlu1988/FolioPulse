@@ -1,9 +1,22 @@
 {
   "name": "foliopulse",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "FolioPulse — AI 驱动的投资标的推荐引擎。面向商业银行客户经理的智能投资推荐 Skill。",
+  "type": "module",
   "license": "SEE LICENSE IN LICENSE",
   "bin": { "foliopulse": "./bin/install.js" },
+  "files": [
+    ".claude/skills/",
+    "engine/",
+    "templates/",
+    "profiles/",
+    "src/",
+    "bin/",
+    "AGENTS.md",
+    "README.md",
+    "LICENSE",
+    "plugin.json"
+  ],
   "engines": { "node": ">=16.7.0" },
   "keywords": ["agent-skills", "claude-code", "investment", "portfolio", "recommendation"],
   "repository": "https://github.com/tywinlu1988/FolioPulse"

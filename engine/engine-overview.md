@@ -30,18 +30,18 @@
 pipeline:
   steps:
     - id: filter
-      doc: dev/engine/filter-rules.md
+      doc: engine/filter-rules.md
       produces: filtered_list
     - id: score
-      doc: dev/engine/scoring-framework.md
+      doc: engine/scoring-framework.md
       consumes: filtered_list
       produces: scored_list
     - id: validate
-      doc: dev/engine/dual-track-methodology.md
+      doc: engine/dual-track-methodology.md
       consumes: scored_list
       produces: validated_list
     - id: rank
-      doc: dev/engine/scoring-framework.md
+      doc: engine/scoring-framework.md
       consumes: validated_list
       produces: ranked_recommendations
 ```

@@ -18,15 +18,15 @@ description: >
 ## 四步管道
 
 ### Step 1: 规则过滤
-按 `dev/engine/filter-rules.md` 的 6 阶段过滤顺序执行。
+按 `engine/filter-rules.md` 的 6 阶段过滤顺序执行。
 所有被拒绝的产品记录拒绝原因。
 
 ### Step 2: 多因子打分
-按 `dev/engine/scoring-framework.md` 的因子定义，对通过过滤的产品逐只打分。
+按 `engine/scoring-framework.md` 的因子定义，对通过过滤的产品逐只打分。
 归一化方法引用引擎文档各因子的 normalization 字段。
 
 ### Step 3: 双轨验证
-按 `dev/engine/dual-track-methodology.md` 执行交叉验证。
+按 `engine/dual-track-methodology.md` 执行交叉验证。
 冲突时轨 A（基本面）优先。
 
 ### Step 4: 排序 + 理由生成

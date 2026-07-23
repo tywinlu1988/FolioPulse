@@ -159,7 +159,6 @@ def parse_qa_verdict_yaml(yaml_str: str) -> QAVerdict:
 
 
 def engine_dir(root: Optional[Path] = None) -> Path:
-    """返回引擎文档目录，自适应 dev 和 dist 两种布局."""
+    """返回引擎文档目录."""
     base = Path(root) if root is not None else Path(__file__).resolve().parent.parent
-    flat = base / "engine"
-    return flat if flat.is_dir() else base / "dev" / "engine"
+    return base / "engine"

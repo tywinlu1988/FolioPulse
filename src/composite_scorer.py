@@ -4,7 +4,7 @@ from typing import Any, Dict, List, Optional
 from src.adapters.base import BaseAdapter
 
 
-# ── 因子定义（来自 dev/engine/scoring-framework.md）─
+# ── 因子定义（来自 engine/scoring-framework.md）─
 
 STOCK_FACTORS = [
     {"id": "pe_percentile", "weight": 0.15, "direction": "inverse",

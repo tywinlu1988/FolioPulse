@@ -17,9 +17,9 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent.parent
-ENGINE_DIR = ROOT / "dev" / "engine"
-SKILLS_DIR = ROOT / "dev" / ".claude" / "skills"
-TEMPLATES_DIR = ROOT / "dev" / "templates"
+ENGINE_DIR = ROOT / "engine"
+SKILLS_DIR = ROOT / ".claude" / "skills"
+TEMPLATES_DIR = ROOT / "templates"
 
 REQUIRED_ENGINE_DOCS = [
     "engine-overview.md", "product-taxonomy.md", "scoring-framework.md",

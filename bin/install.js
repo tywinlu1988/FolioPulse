@@ -109,24 +109,24 @@ function install(opts) {
   console.log(`  安装路径: ${destBase}\n`);
 
   // 复制技能文件
-  const skillsSrc = join(ROOT, "dev", ".claude", "skills");
+  const skillsSrc = join(ROOT, ".claude", "skills");
   copyDir(skillsSrc, destBase);
   console.log("  [OK] 技能文件已复制");
 
   // 复制引擎文档
-  const engineSrc = join(ROOT, "dev", "engine");
+  const engineSrc = join(ROOT, "engine");
   const engineDest = join(cwd, cfg.destDir, "engine");
   copyDir(engineSrc, engineDest);
   console.log("  [OK] 引擎文档已复制");
 
   // 复制模板
-  const templatesSrc = join(ROOT, "dev", "templates");
+  const templatesSrc = join(ROOT, "templates");
   const templatesDest = join(cwd, cfg.destDir, "templates");
   copyDir(templatesSrc, templatesDest);
   console.log("  [OK] 模板已复制");
 
   // 复制画像
-  const profilesSrc = join(ROOT, "dev", "profiles");
+  const profilesSrc = join(ROOT, "profiles");
   const profilesDest = join(cwd, cfg.destDir, "profiles");
   copyDir(profilesSrc, profilesDest);
   console.log("  [OK] 画像模板已复制");

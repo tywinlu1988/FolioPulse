@@ -1,4 +1,4 @@
-"""构建脚本 — 将 dev/ 目录组装为可分发的发布包.
+"""构建脚本 — 将项目文件组装为可分发的发布包.
 
 用法: python scripts/build_dist.py [version]
 
@@ -21,8 +21,8 @@ def build(version: str = "0.1.0") -> Path:
         shutil.rmtree(dist_dir)
     dist_dir.mkdir(parents=True, exist_ok=True)
 
-    # 复制引擎文档（跳过 audits）
-    engine_src = ROOT / "dev" / "engine"
+    # 复制引擎文档
+    engine_src = ROOT / "engine"
     engine_dst = dist_dir / "engine"
     engine_dst.mkdir(exist_ok=True)
     for f in engine_src.iterdir():
@@ -30,7 +30,7 @@ def build(version: str = "0.1.0") -> Path:
             shutil.copy2(f, engine_dst / f.name)
 
     # 复制模板
-    templates_src = ROOT / "dev" / "templates"
+    templates_src = ROOT / "templates"
     templates_dst = dist_dir / "templates"
     templates_dst.mkdir(exist_ok=True)
     for f in templates_src.iterdir():
@@ -38,7 +38,7 @@ def build(version: str = "0.1.0") -> Path:
             shutil.copy2(f, templates_dst / f.name)
 
     # 复制技能
-    skills_src = ROOT / "dev" / ".claude" / "skills"
+    skills_src = ROOT / ".claude" / "skills"
     skills_dst = dist_dir / ".claude" / "skills"
     skills_dst.mkdir(parents=True, exist_ok=True)
     for skill_dir in skills_src.iterdir():
@@ -49,7 +49,7 @@ def build(version: str = "0.1.0") -> Path:
             shutil.copytree(skill_dir, dst)
 
     # 复制画像
-    profiles_src = ROOT / "dev" / "profiles"
+    profiles_src = ROOT / "profiles"
     profiles_dst = dist_dir / "profiles"
     profiles_dst.mkdir(exist_ok=True)
     for f in profiles_src.iterdir():

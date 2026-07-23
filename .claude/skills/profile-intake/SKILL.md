@@ -39,15 +39,15 @@ constraints: []
 investor_type: "普通投资者"
 path_id: "WP-REC-01"
 engine_reading_order:
-  - dev/engine/product-taxonomy.md
-  - dev/engine/filter-rules.md
-  - dev/engine/scoring-framework.md
-  - dev/engine/suitability-rules.md
-  - dev/engine/dual-track-methodology.md
+  - engine/product-taxonomy.md
+  - engine/filter-rules.md
+  - engine/scoring-framework.md
+  - engine/suitability-rules.md
+  - engine/dual-track-methodology.md
 quality_gates:
-  - "风险等级匹配 (dev/engine/suitability-rules.md §风险匹配矩阵)"
-  - "产品禁售过滤 (dev/engine/filter-rules.md §过滤规则详情)"
-  - "评分置信度 (dev/engine/scoring-framework.md §置信度规则)"
+  - "风险等级匹配 (engine/suitability-rules.md §风险匹配矩阵)"
+  - "产品禁售过滤 (engine/filter-rules.md §过滤规则详情)"
+  - "评分置信度 (engine/scoring-framework.md §置信度规则)"
 notes: ""
 ```
 
