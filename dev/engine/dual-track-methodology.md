@@ -23,27 +23,27 @@ tracks:
 
 ```yaml
 conflict_rules:
-  -
-    track_a: positive
-    track_b: positive
-    result: 互证增强
-    action: 评分上调 0.5
-  -
-    track_a: positive
-    track_b: negative
-    result: 轨 A 优先
-    action: 维持原评分，标注"市场信号分歧"
-  -
-    track_a: negative
-    track_b: positive
-    result: 轨 A 优先
-    action: 维持原评分，标注"市场信号先行"
-  -
-    track_a: negative
-    track_b: negative
-    result: 互证削弱
-    action: 评分下调 0.5，列入关注名单
-
+  rules:
+    -
+      track_a: positive
+      track_b: positive
+      result: 互证增强
+      action: 评分上调 0.5
+    -
+      track_a: positive
+      track_b: negative
+      result: 轨 A 优先
+      action: 维持原评分，标注"市场信号分歧"
+    -
+      track_a: negative
+      track_b: positive
+      result: 轨 A 优先
+      action: 维持原评分，标注"市场信号先行"
+    -
+      track_a: negative
+      track_b: negative
+      result: 互证削弱
+      action: 评分下调 0.5，列入关注名单
   default_rule: 轨 A（基本面）优先于轨 B（市场信号）
 ```
 

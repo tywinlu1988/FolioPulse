@@ -1,0 +1,12 @@
+profile_id: ""
+rm_name: ""
+client_name: ""
+risk_level: "R3"
+amount: 0
+horizon: "中期"
+goal: "资产增值"
+liquidity: "低"
+constraints: []
+investor_type: "普通投资者"
+path_id: "WP-REC-01"
+notes: ""

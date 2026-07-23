@@ -66,27 +66,27 @@ modes:
 adapter_interface:
   methods:
     - name: fetch_product_list
-      input: product_type
-      output: List[Product]
+      input: "product_type: str"
+      output: "List[Product]"
       description: 按产品类型拉取产品列表
 
     - name: fetch_product_detail
-      input: product_code
-      output: ProductDetail
+      input: "product_code: str"
+      output: "ProductDetail"
       description: 拉取单只产品详情
 
     - name: fetch_financial_data
-      input: product_code, data_points: List[str]
-      output: Dict[str, float]
+      input: "product_code: str, data_points: List[str]"
+      output: "Dict[str, float]"
       description: 拉取指定数据点
 
     - name: fetch_market_signal
-      input: product_code, signal_ids: List[str]
-      output: Dict[str, float]
+      input: "product_code: str, signal_ids: List[str]"
+      output: "Dict[str, float]"
       description: 拉取市场信号数据
 
     - name: check_health
-      input: none
-      output: bool
+      input: "none"
+      output: "bool"
       description: 检查适配器可用性
 ```
