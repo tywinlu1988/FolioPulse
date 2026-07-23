@@ -1,0 +1,63 @@
+FolioPulse — Dual License Agreement
+=====================================
+
+Copyright (c) 2026 Tywin Lu. All rights reserved.
+
+This software is made available under a dual-licensing model.
+You must comply with one of the following licenses:
+
+---
+
+## OPTION 1: Open Source License (AGPL-3.0)
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+**Important AGPL-3.0 obligations:**
+- If you modify this software and run it as a network service, you MUST
+  make the complete source code available to users of that service.
+- This applies to ALL use cases, including commercial ones — if you are
+  willing to comply with the full AGPL-3.0 terms, you may use this
+  software for any purpose without a separate commercial license.
+
+---
+
+## OPTION 2: Commercial License
+
+If you wish to use FolioPulse for commercial purposes WITHOUT complying
+with the AGPL-3.0 copyleft obligations (e.g., embedding in a proprietary
+product, offering as a closed-source SaaS, or distributing without source
+disclosure), you must obtain a separate commercial license.
+
+Commercial licenses grant you:
+- Freedom from AGPL-3.0 copyleft and source-disclosure obligations
+- Proprietary integration and distribution rights
+- Priority support and updates (with active subscription)
+- Indemnification (with active subscription)
+
+For commercial licensing inquiries, contact:
+  Email: tywinlu1988@example.com
+  Subject: FolioPulse Commercial License Inquiry
+
+---
+
+## Summary
+
+| Use Case                        | License Required          |
+|---------------------------------|---------------------------|
+| Personal / non-commercial       | AGPL-3.0 (free)           |
+| Open source (AGPL-compatible)   | AGPL-3.0 (free)           |
+| Commercial (AGPL-compliant)     | AGPL-3.0 (free)           |
+| Commercial (non-AGPL-compliant) | Commercial License (paid) |
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.

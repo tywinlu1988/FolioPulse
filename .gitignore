@@ -1,0 +1,96 @@
+# ============================================================
+# FolioPulse .gitignore
+# 准绳：不提交研发过程产物，不提交其他技能的文档
+# ============================================================
+
+# --- 研发过程产物 ---
+# 日志文件
+*.log
+*.log.*
+logs/
+log/
+
+# 测试用例（研发过程中产生的测试）
+tests/
+test/
+__tests__/
+*.test.*
+*.spec.*
+test_*/
+*_test.*
+
+# 案例 / 示例（研发调试用）
+examples/
+cases/
+demo/
+samples/
+fixtures/
+
+# 调试与临时文件
+debug/
+tmp/
+temp/
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+
+# 研发笔记 / 过程记录
+notes/
+docs/dev/
+docs/notes/
+WIP/
+scratch/
+*.wip.*
+
+# Jupyter notebooks（研发探索用）
+*.ipynb
+
+# --- 其他技能的过程文档 ---
+# 不得提交 superpower 等第三方技能的 spec、plan 等
+.claude/plans/
+.claude/specs/
+.claude/skills/third-party/
+skill-references/
+third-party-skills/
+
+# --- 标准忽略 ---
+# 依赖
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# 环境变量 & 密钥
+.env
+.env.*
+*.key
+*.pem
+credentials.*
+secrets/
+
+# 操作系统
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+.project
+.classpath
+
+# 覆盖率报告
+coverage/
+.coverage
+htmlcov/
+
+# --- 允许的文件不受影响 ---
+# skill.md, src/, README.md, LICENSE 等正常提交
