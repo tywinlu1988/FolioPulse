@@ -19,6 +19,23 @@ tracks:
     data_source: [eastmoney]
 ```
 
+## 轨 A 判定
+
+```yaml
+track_a_evaluation:
+  positive_threshold: 6.0
+  description: 综合评分 >= 6.0 判定为 positive，否则 negative
+```
+
+## 轨 B 聚合规则
+
+```yaml
+track_b_aggregation:
+  rule: 统计高于正向阈值的信号数与低于负向阈值的信号数，多数决方向
+  tie: 信号分歧（正负相等）或全部缺失时判定 neutral
+  neutral_action: 维持原评分，不标注
+```
+
 ## 冲突裁决
 
 ```yaml

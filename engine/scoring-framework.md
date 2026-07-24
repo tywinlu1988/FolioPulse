@@ -204,6 +204,78 @@ fund_factors:
     data_point: total_expense_ratio
 ```
 
+## ETF 因子
+
+```yaml
+etf_factors:
+  - id: tracking_error
+    name: 跟踪误差
+    description: 近 1 年跟踪误差，越低越好
+    direction: inverse
+    weight: 0.30
+    normalization: linear_inverse
+    thresholds:
+      - [0, 0.1, 10]
+      - [0.1, 0.3, 8]
+      - [0.3, 0.5, 6]
+      - [0.5, 1.0, 4]
+      - [1.0, 100, 2]
+    data_source: eastmoney
+    data_point: tracking_error_1y
+
+  - id: liquidity
+    name: 流动性
+    description: 日均成交额
+    direction: direct
+    weight: 0.30
+    normalization: linear
+    thresholds:
+      - [0, 100000, 2]
+      - [100000, 500000, 4]
+      - [500000, 1000000, 6]
+      - [1000000, 5000000, 8]
+      - [5000000, 100000000000, 10]
+    data_source: eastmoney
+    data_point: avg_daily_volume
+
+  - id: expense_ratio
+    name: 费率
+    description: 年度管理费 + 托管费率
+    direction: inverse
+    weight: 0.20
+    normalization: linear_inverse
+    thresholds:
+      - [0, 0.3, 10]
+      - [0.3, 0.5, 8]
+      - [0.5, 1.0, 5]
+      - [1.0, 100, 3]
+    data_source: eastmoney
+    data_point: expense_ratio
+
+  - id: fund_size
+    name: 基金规模
+    description: 基金资产管理规模（亿元）
+    direction: target_range
+    weight: 0.20
+    normalization: target_range
+    target_range: [1, 100]
+    data_source: eastmoney
+    data_point: aum_yuan
+```
+
+## 产品类型与因子集映射
+
+```yaml
+factor_mapping:
+  stock: stock_factors
+  equity_fund: fund_factors
+  mixed_fund: fund_factors
+  bond_fund: fund_factors
+  index_fund: fund_factors
+  qdii_fund: fund_factors
+  etf: etf_factors
+```
+
 ## 综合评分公式
 
 ```yaml

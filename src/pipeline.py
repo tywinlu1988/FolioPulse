@@ -8,6 +8,7 @@ from src.filter_engine import FilterEngine
 from src.composite_scorer import CompositeScorer
 from src.suitability_validator import SuitabilityValidator
 from src.trace_logger import TraceLogger
+from src.dual_track import apply_dual_track
 
 
 class Pipeline:
@@ -48,12 +49,21 @@ class Pipeline:
         scored = self.scorer.score(passed, profile, self.adapter)
         self.tracer.log_score(scored)
 
-        # Step 4: 排序
+        # Step 4: 双轨验证（轨 A 基本面 × 轨 B 市场信号）
+        validated = apply_dual_track(scored, self.adapter)
+        self.tracer.log_dual_track(validated)
+
+        # Step 5: 排序（置信度 <50% 的产品标注"数据不足"，不参与排名）
+        rankable = [p for p in validated if p.get("confidence", 0) >= 50]
+        excluded = [
+            {**p, "excluded_from_ranking": True}
+            for p in validated if p.get("confidence", 0) < 50
+        ]
         ranked = sorted(
-            scored,
+            rankable,
             key=lambda x: x.get("composite_score", 0),
             reverse=True,
-        )
+        ) + excluded
 
         artifact = RecommendArtifact(
             path_id=profile.path_id,

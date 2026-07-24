@@ -4,7 +4,7 @@
 输入客户画像，输出结构化推荐列表及全套客户交付物料。  
 以 Agent Skill 形式分发，兼容 **Claude Code**、**Codex**、**Cursor**、**Gemini**、**OpenCode**。
 
-[![Version](https://img.shields.io/badge/version-0.1.3-blue)](https://github.com/tywinlu1988/FolioPulse)
+[![Version](https://img.shields.io/badge/version-0.2.0-blue)](https://github.com/tywinlu1988/FolioPulse)
 [![License](https://img.shields.io/badge/license-AGPL--3.0%20%2B%20Commercial-green)](./LICENSE)
 [![Python](https://img.shields.io/badge/python-3.11%2B-blue)](./pyproject.toml)
 
@@ -131,7 +131,9 @@ folio-{日期}-{客户姓名}/
 | **综合打分** | [src/composite_scorer.py](./src/composite_scorer.py) | 4 种归一化方法（线性/反向/分位数/目标区间），加权求和，置信度计算 |
 | **适当性校验** | [src/suitability_validator.py](./src/suitability_validator.py) | 5 项门禁逐条校验，pass / pass-with-findings / fail 三级判定 |
 | **回溯日志** | [src/trace_logger.py](./src/trace_logger.py) | 9 节完整回溯日志（输入/溯源/过滤/打分/双轨/合规/干预/输出/元数据） |
-| **管道编排** | [src/pipeline.py](./src/pipeline.py) | 串联拉取→过滤→打分→排序→校验全流程，一键执行 |
+| **引擎加载器** | [src/engine_loader.py](./src/engine_loader.py) | 运行时解析引擎文档 YAML 块——风险矩阵/因子定义/置信度/双轨配置的单一真相源 |
+| **双轨验证** | [src/dual_track.py](./src/dual_track.py) | 轨 A 基本面 × 轨 B 市场信号交叉验证，4 种冲突裁决 |
+| **管道编排** | [src/pipeline.py](./src/pipeline.py) | 串联拉取→过滤→打分→双轨→排序→校验全流程，一键执行 |
 
 ---
 
@@ -159,10 +161,11 @@ folio-{日期}-{客户姓名}/
 | **v0.1.0** ✅ | 三阶段管道跑通，单适配器（东方财富模拟） | 已完成 |
 | **v0.1.1** ✅ | README 完善，npx 安装指引，引擎模块文档 | 已完成 |
 | **v0.1.2** ✅ | 标准 Skill 目录结构，过程文件清理，npx 修复 | 已完成 |
-| **v0.1.3** ✅ | Skill 链质检修复（预检/数据拉取/Mode B/自愈/两段式交付） | 当前版本 |
-| **v0.2.0** | 真实东方财富 API 接入，天天基金适配器，CLI 格式化输出 | 计划中 |
-| **v0.3.0** | RM 交互式调整（换产品/改配比/加备注），备选池功能 | 计划中 |
-| **v0.4.0** | Mode B 外部数据（Wind），多适配器全覆盖，双轨验证实装 | 计划中 |
+| **v0.1.3** ✅ | Skill 链质检修复（预检/数据拉取/Mode B/自愈/两段式交付） | 已完成 |
+| **v0.1.4** ✅ | 深度审查修复（归一化 clamp/金额解析/约束映射/npx 布局） | 已完成 |
+| **v0.2.0** ✅ | 单一真相源实装（运行时解析引擎文档）+ 双轨验证实装 + 置信度规则 | 当前版本 |
+| **v0.3.0** | RM 交互式调整（换产品/改配比/加备注），备选池，黑名单/投资者类型过滤，推荐理由生成 | 计划中 |
+| **v0.4.0** | Mode B 外部数据（Wind），多适配器全覆盖（天天基金等） | 计划中 |
 | **v1.0.0** | 生产可用，完整测试覆盖，合规审计报告，商业授权就绪 | 计划中 |
 
 ---

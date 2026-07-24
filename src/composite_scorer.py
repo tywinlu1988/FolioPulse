@@ -1,89 +1,26 @@
-"""多因子综合打分引擎 —— 推荐管道 Step 2."""
+"""多因子综合打分引擎 —— 推荐管道 Step 2.
+
+因子定义与产品映射在运行时从 engine/scoring-framework.md 解析（R7 单一真相源），
+不在代码中硬编码。
+"""
 
 from typing import Any, Dict, List, Optional
 from src.adapters.base import BaseAdapter
+from src.engine_loader import load_factor_sets, load_factor_mapping, load_confidence_rules
 
 
-# ── 因子定义（来自 engine/scoring-framework.md）─
+# 运行时从引擎文档加载（单一真相源：engine/scoring-framework.md）
+_FACTOR_SETS = load_factor_sets()
+_FACTOR_MAPPING = load_factor_mapping()
+_CONFIDENCE_RULES = load_confidence_rules()
 
-STOCK_FACTORS = [
-    {"id": "pe_percentile", "weight": 0.15, "direction": "inverse",
-     "normalization": "percentile_inverse", "data_point": "pe_ttm_percentile_5y"},
-    {"id": "pb_percentile", "weight": 0.10, "direction": "inverse",
-     "normalization": "percentile_inverse", "data_point": "pb_percentile_5y"},
-    {"id": "roe", "weight": 0.20, "direction": "direct",
-     "normalization": "linear", "data_point": "roe_ttm",
-     "thresholds": [(0, 0, 0), (0, 5, 1), (5, 10, 3), (10, 15, 5),
-                    (15, 20, 7), (20, 25, 8.5), (25, 100, 10)]},
-    {"id": "revenue_growth", "weight": 0.15, "direction": "direct",
-     "normalization": "linear", "data_point": "revenue_cagr_3y",
-     "thresholds": [(-100, -10, 0), (-10, 0, 2), (0, 5, 4), (5, 10, 5),
-                    (10, 20, 7), (20, 30, 8.5), (30, 500, 10)]},
-    {"id": "momentum_6m", "weight": 0.15, "direction": "direct",
-     "normalization": "linear", "data_point": "price_return_6m",
-     "thresholds": [(-100, -30, 0), (-30, -15, 2), (-15, -5, 4), (-5, 5, 5),
-                    (5, 15, 6), (15, 30, 8), (30, 500, 10)]},
-    {"id": "volatility_90d", "weight": 0.15, "direction": "inverse",
-     "normalization": "percentile_inverse", "data_point": "annualized_volatility_90d"},
-    {"id": "dividend_yield", "weight": 0.10, "direction": "direct",
-     "normalization": "linear", "data_point": "dividend_yield_ttm",
-     "thresholds": [(0, 0.5, 0), (0.5, 1, 2), (1, 2, 4), (2, 3, 6),
-                    (3, 4, 8), (4, 100, 10)]},
-]
-
-FUND_FACTORS = [
-    {"id": "alpha", "weight": 0.20, "direction": "direct",
-     "normalization": "linear", "data_point": "alpha_annualized_3y",
-     "thresholds": [(-100, -5, 0), (-5, 0, 3), (0, 3, 5), (3, 5, 6),
-                    (5, 10, 8), (10, 100, 10)]},
-    {"id": "beta", "weight": 0.05, "direction": "target_range",
-     "normalization": "target_range", "data_point": "beta_3y",
-     "target_range": [0.5, 1.2]},
-    {"id": "sharpe", "weight": 0.25, "direction": "direct",
-     "normalization": "linear", "data_point": "sharpe_ratio_3y",
-     "thresholds": [(-100, 0, 0), (0, 0.5, 3), (0.5, 1.0, 5), (1.0, 1.5, 6),
-                    (1.5, 2.0, 8), (2.0, 100, 10)]},
-    {"id": "max_drawdown", "weight": 0.20, "direction": "inverse",
-     "normalization": "linear_inverse", "data_point": "max_drawdown_3y",
-     "thresholds": [(0, 5, 10), (5, 10, 9), (10, 15, 7), (15, 20, 5),
-                    (20, 25, 3), (25, 100, 0)]},
-    {"id": "fund_size", "weight": 0.10, "direction": "target_range",
-     "normalization": "target_range", "data_point": "aum_yuan",
-     "target_range": [1, 50]},
-    {"id": "manager_stability", "weight": 0.10, "direction": "direct",
-     "normalization": "linear", "data_point": "manager_tenure_years",
-     "thresholds": [(0, 1, 2), (1, 2, 4), (2, 3, 6), (3, 5, 8), (5, 100, 10)]},
-    {"id": "expense_ratio", "weight": 0.10, "direction": "inverse",
-     "normalization": "linear_inverse", "data_point": "total_expense_ratio",
-     "thresholds": [(0, 0.5, 10), (0.5, 1.0, 8), (1.0, 1.5, 6),
-                    (1.5, 2.0, 4), (2.0, 100, 2)]},
-]
+STOCK_FACTORS = _FACTOR_SETS["stock_factors"]
+FUND_FACTORS = _FACTOR_SETS["fund_factors"]
+ETF_FACTORS = _FACTOR_SETS["etf_factors"]
 
 PRODUCT_FACTOR_MAP = {
-    "stock": STOCK_FACTORS,
-    "equity_fund": FUND_FACTORS,
-    "mixed_fund": FUND_FACTORS,
-    "bond_fund": FUND_FACTORS,
-    "index_fund": FUND_FACTORS,
-    "qdii_fund": FUND_FACTORS,
-    "etf": [
-        {"id": "tracking_error", "weight": 0.30, "direction": "inverse",
-         "normalization": "linear_inverse", "data_point": "tracking_error_1y",
-         "thresholds": [(0, 0.1, 10), (0.1, 0.3, 8), (0.3, 0.5, 6),
-                        (0.5, 1.0, 4), (1.0, 100, 2)]},
-        {"id": "liquidity", "weight": 0.30, "direction": "direct",
-         "normalization": "linear", "data_point": "avg_daily_volume",
-         "thresholds": [(0, 100000, 2), (100000, 500000, 4),
-                        (500000, 1000000, 6), (1000000, 5000000, 8),
-                        (5000000, 100000000000, 10)]},
-        {"id": "expense_ratio", "weight": 0.20, "direction": "inverse",
-         "normalization": "linear_inverse", "data_point": "expense_ratio",
-         "thresholds": [(0, 0.3, 10), (0.3, 0.5, 8), (0.5, 1.0, 5),
-                        (1.0, 100, 3)]},
-        {"id": "fund_size", "weight": 0.20, "direction": "target_range",
-         "normalization": "target_range", "data_point": "aum_yuan",
-         "target_range": [1, 100]},
-    ],
+    ptype: _FACTOR_SETS[set_name]
+    for ptype, set_name in _FACTOR_MAPPING.items()
 }
 
 
@@ -157,6 +94,15 @@ def _normalize_factor(factor_def: Dict, raw_value: Optional[float]) -> Optional[
 class CompositeScorer:
     """多因子综合打分引擎."""
 
+    @staticmethod
+    def confidence_label(density_pct: float) -> str:
+        """按引擎文档置信度规则返回标签（高/中/低）."""
+        thresholds = _CONFIDENCE_RULES.get("density_thresholds", [])
+        for t in thresholds:
+            if density_pct >= t["threshold"]:
+                return t["label"].replace("置信度", "")
+        return "低"
+
     def score(
         self, products: List[Dict[str, Any]], profile: Any, adapter: Optional[BaseAdapter] = None
     ) -> List[Dict[str, Any]]:
@@ -200,6 +146,9 @@ class CompositeScorer:
             entry = dict(product)
             entry["composite_score"] = composite_score
             entry["confidence"] = round(confidence, 1)
+            entry["confidence_label"] = self.confidence_label(confidence)
+            if confidence < 50:
+                entry["data_note"] = "数据不足"
             entry["factor_scores"] = factor_scores
             scored.append(entry)
 

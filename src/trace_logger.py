@@ -26,7 +26,7 @@ class TraceLogger:
         self.rm_interventions: List[Dict] = []
         self.output_manifest: List[Dict] = []
         self.engine_metadata: Dict[str, Any] = {
-            "engine_version": "0.1.3",
+            "engine_version": "0.2.0",
             "mode": "A",
             "adapter_call_count": 0,
             "llm_call_count": 0,
@@ -78,6 +78,17 @@ class TraceLogger:
                     "weight": fs.get("weight"),
                     "weighted": fs.get("weighted"),
                 })
+
+    def log_dual_track(self, validated: List[Dict]) -> None:
+        """记录双轨验证结果."""
+        for p in validated:
+            self.dual_track.append({
+                "code": p.get("code", ""),
+                "track_a": p.get("track_a", "—"),
+                "track_b": p.get("track_b", "—"),
+                "conflict": p.get("dual_track_note", "—"),
+                "final": p.get("composite_score", ""),
+            })
 
     def log_compliance(self, gate_results: List[Dict]) -> None:
         """记录合规校验."""

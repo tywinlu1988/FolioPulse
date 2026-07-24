@@ -1,8 +1,13 @@
-"""规则过滤引擎 —— 推荐管道 Step 1."""
+"""规则过滤引擎 —— 推荐管道 Step 1.
+
+风险匹配矩阵在运行时从 engine/suitability-rules.md 解析（R7 单一真相源），
+不在代码中硬编码。
+"""
 
 from enum import Enum
 from typing import Any, Dict, List, Optional, Tuple
 from src.path_sheet import ProfileSheet, RiskLevel, Horizon
+from src.engine_loader import load_risk_matrix
 
 
 class FilterResult(str, Enum):
@@ -11,33 +16,8 @@ class FilterResult(str, Enum):
     WARN = "warn"
 
 
-RISK_MATCH_MATRIX = {
-    RiskLevel.R1: {
-        "allowed": [RiskLevel.R1],
-        "prohibited": [RiskLevel.R2, RiskLevel.R3, RiskLevel.R4, RiskLevel.R5],
-        "with_warning": [],
-    },
-    RiskLevel.R2: {
-        "allowed": [RiskLevel.R1, RiskLevel.R2],
-        "prohibited": [RiskLevel.R3, RiskLevel.R4, RiskLevel.R5],
-        "with_warning": [],
-    },
-    RiskLevel.R3: {
-        "allowed": [RiskLevel.R1, RiskLevel.R2, RiskLevel.R3],
-        "prohibited": [RiskLevel.R5],
-        "with_warning": [RiskLevel.R4],
-    },
-    RiskLevel.R4: {
-        "allowed": [RiskLevel.R1, RiskLevel.R2, RiskLevel.R3, RiskLevel.R4],
-        "prohibited": [],
-        "with_warning": [RiskLevel.R5],
-    },
-    RiskLevel.R5: {
-        "allowed": [RiskLevel.R1, RiskLevel.R2, RiskLevel.R3, RiskLevel.R4, RiskLevel.R5],
-        "prohibited": [],
-        "with_warning": [],
-    },
-}
+# 运行时从引擎文档加载（单一真相源：engine/suitability-rules.md §风险匹配矩阵）
+RISK_MATCH_MATRIX = load_risk_matrix()
 
 HORIZON_MAX_MONTHS = {
     Horizon.SHORT: 12,

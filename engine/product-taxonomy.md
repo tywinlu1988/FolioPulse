@@ -21,31 +21,31 @@ product_types:
   - id: mixed_fund
     name: 混合型基金
     risk_range: [R2, R4]
-    applicable_factors: [alpha, beta, sharpe, max_drawdown, fund_size, manager_stability, stock_ratio]
+    applicable_factors: [alpha, beta, sharpe, max_drawdown, fund_size, manager_stability, expense_ratio]
     fields: [code, name, fund_house, inception_date, aum, expense_ratio, manager_name, manager_tenure, stock_ratio_range, benchmark]
 
   - id: bond_fund
     name: 债券型基金
     risk_range: [R1, R3]
-    applicable_factors: [ytm, duration, credit_quality, sharpe, max_drawdown, fund_size, expense_ratio]
+    applicable_factors: [alpha, beta, sharpe, max_drawdown, fund_size, manager_stability, expense_ratio]
     fields: [code, name, fund_house, inception_date, aum, expense_ratio, manager_name, duration_avg, credit_rating_dist, ytm]
 
   - id: index_fund
     name: 指数型基金
     risk_range: [R2, R5]
-    applicable_factors: [tracking_error, liquidity, expense_ratio, fund_size, index_volatility]
+    applicable_factors: [alpha, beta, sharpe, max_drawdown, fund_size, manager_stability, expense_ratio]
     fields: [code, name, fund_house, inception_date, aum, expense_ratio, tracking_index, tracking_error_1y]
 
   - id: qdii_fund
     name: QDII基金
     risk_range: [R3, R5]
-    applicable_factors: [alpha, sharpe, max_drawdown, fund_size, fx_exposure, tracking_error]
+    applicable_factors: [alpha, beta, sharpe, max_drawdown, fund_size, manager_stability, expense_ratio]
     fields: [code, name, fund_house, inception_date, aum, expense_ratio, target_market, currency, fx_hedged]
 
   - id: etf
     name: ETF
     risk_range: [R2, R5]
-    applicable_factors: [tracking_error, liquidity, expense_ratio, fund_size, bid_ask_spread, premium_discount]
+    applicable_factors: [tracking_error, liquidity, expense_ratio, fund_size]
     fields: [code, name, fund_house, inception_date, aum, expense_ratio, tracking_index, tracking_error_1y, avg_daily_volume]
 
   - id: reit
