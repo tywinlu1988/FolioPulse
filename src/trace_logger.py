@@ -26,7 +26,7 @@ class TraceLogger:
         self.rm_interventions: List[Dict] = []
         self.output_manifest: List[Dict] = []
         self.engine_metadata: Dict[str, Any] = {
-            "engine_version": "0.1.0",
+            "engine_version": "0.1.3",
             "mode": "A",
             "adapter_call_count": 0,
             "llm_call_count": 0,
