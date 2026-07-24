@@ -50,6 +50,7 @@ class ProfileSheet:
     rm_name: str = ""
     client_name: str = ""
     constraints: List[str] = field(default_factory=list)
+    mode: Mode = Mode.A
     path_id: str = "WP-REC-01"
     notes: str = ""
 
@@ -99,6 +100,28 @@ def validate_profile_sheet(ps: ProfileSheet) -> List[str]:
 
 # ── YAML 解析 ──────────────────────────────────────────
 
+def _parse_amount(raw) -> float:
+    """解析投资金额，统一为元.
+
+    支持：数值（元）、字符串 "500000"、"50万"、"1.2亿"、"5000元".
+    """
+    if raw is None:
+        return 0.0
+    if isinstance(raw, (int, float)):
+        return float(raw)
+    text = str(raw).strip().replace(",", "")
+    try:
+        if text.endswith("亿"):
+            return float(text[:-1]) * 100_000_000
+        if text.endswith("万"):
+            return float(text[:-1]) * 10_000
+        if text.endswith("元"):
+            return float(text[:-1])
+        return float(text)
+    except ValueError:
+        raise ValueError(f"无法解析投资金额: {raw}")
+
+
 def parse_profile_sheet_yaml(yaml_str: str) -> ProfileSheet:
     """从 YAML 字符串解析画像表."""
     data = yaml.safe_load(yaml_str)
@@ -115,17 +138,24 @@ def parse_profile_sheet_yaml(yaml_str: str) -> ProfileSheet:
     except ValueError:
         raise ValueError(f"不支持的投资期限: {horizon_raw}")
 
+    mode_raw = data.get("mode", "A")
+    try:
+        mode = Mode(mode_raw)
+    except ValueError:
+        raise ValueError(f"不支持的数据模式: {mode_raw}")
+
     return ProfileSheet(
         profile_id=data.get("profile_id", ""),
         rm_name=data.get("rm_name", ""),
         client_name=data.get("client_name", ""),
         risk_level=risk_level,
-        amount=float(data.get("amount", 0)),
+        amount=_parse_amount(data.get("amount", 0)),
         horizon=horizon,
         goal=data.get("goal", ""),
         liquidity=data.get("liquidity", ""),
         investor_type=data.get("investor_type", ""),
-        constraints=data.get("constraints", []),
+        constraints=data.get("constraints") or [],
+        mode=mode,
         path_id=data.get("path_id", "WP-REC-01"),
         notes=data.get("notes", ""),
     )

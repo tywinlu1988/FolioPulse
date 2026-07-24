@@ -64,12 +64,13 @@ description: >
 ### 质检通过 → 立即展示 L0 TL;DR 速览卡
 
 质检通过（pass / pass-with-findings）后，**不等 RM 确认**，立即按
-`engine/output-layered.md §L0 CLI 模板` 格式展示 TL;DR：
+`engine/output-layered.md §L0 CLI 模板` 格式展示 TL;DR。
+注意：画像表 `amount` 单位为元，展示时换算为万元（`amount / 10000`）填入 `{amount_wan}`：
 
 ```
 ══════════════════════════════════════════
   FolioPulse 推荐速览
-  客户：{client_name} | 风险等级：{risk_level} | 金额：{amount}万元 | 期限：{horizon}
+  客户：{client_name} | 风险等级：{risk_level} | 金额：{amount_wan}万元 | 期限：{horizon}
 ══════════════════════════════════════════
 
   {risk_match_light} 风险匹配 | 质检：{verdict} | 置信度：{confidence_label}

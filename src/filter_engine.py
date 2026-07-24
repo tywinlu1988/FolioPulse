@@ -1,7 +1,7 @@
 """规则过滤引擎 —— 推荐管道 Step 1."""
 
 from enum import Enum
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 from src.path_sheet import ProfileSheet, RiskLevel, Horizon
 
 
@@ -74,12 +74,33 @@ def filter_by_amount(client_amount: float, product_min_amount: float) -> FilterR
     return FilterResult.REJECT
 
 
-def parse_product_risk_level(product: Dict[str, Any]) -> RiskLevel:
+# 中英文产品类型映射（用于客户约束匹配）
+TYPE_ALIAS = {
+    "股票": "stock",
+    "基金": "fund",
+    "股票基金": "equity_fund",
+    "混合基金": "mixed_fund",
+    "债券基金": "bond_fund",
+    "债券": "bond_fund",
+    "指数基金": "index_fund",
+    "指数": "index_fund",
+    "etf": "etf",
+    "reits": "reit",
+    "reit": "reit",
+    "可转债": "convertible_bond",
+    "理财": "wealth_mgmt_product",
+    "理财产品": "wealth_mgmt_product",
+    "qdii": "qdii_fund",
+}
+
+
+def parse_product_risk_level(product: Dict[str, Any]) -> Optional[RiskLevel]:
+    """从产品字典中提取风险等级。无法识别时返回 None（拒绝推荐）."""
     raw = product.get("risk_level", "")
     try:
         return RiskLevel(raw)
     except ValueError:
-        return RiskLevel.R3
+        return None
 
 
 class FilterEngine:
@@ -105,6 +126,8 @@ class FilterEngine:
         self, product: Dict[str, Any], profile: ProfileSheet,
     ) -> Tuple[FilterResult, str]:
         product_risk = parse_product_risk_level(product)
+        if product_risk is None:
+            return FilterResult.REJECT, f"风险等级未知: {product.get('risk_level', '缺失')}"
 
         risk_result = filter_by_risk_level(profile.risk_level, product_risk)
         if risk_result == FilterResult.REJECT:
@@ -139,10 +162,17 @@ class FilterEngine:
         self, product: Dict[str, Any], constraints: List[str],
     ) -> Tuple[FilterResult, str]:
         industry = product.get("industry", "")
-        product_type = product.get("type", "")
+        product_type = product.get("type", "").lower()
         for constraint in constraints:
             if constraint.startswith("不投") or constraint.startswith("禁投"):
                 keyword = constraint[2:]
-                if keyword in industry or keyword in product_type:
+                if keyword in industry:
+                    return FilterResult.REJECT, f"客户约束: {constraint}"
+                # 中英文映射匹配产品类型
+                alias = TYPE_ALIAS.get(keyword.lower(), keyword.lower())
+                if alias in product_type or keyword.lower() in product_type:
+                    return FilterResult.REJECT, f"客户约束: {constraint}"
+                # 基金泛称匹配所有基金类型
+                if alias == "fund" and "fund" in product_type:
                     return FilterResult.REJECT, f"客户约束: {constraint}"
         return FilterResult.PASS, ""

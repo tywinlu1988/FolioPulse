@@ -45,7 +45,7 @@ layers:
 ```
 ══════════════════════════════════════════
   FolioPulse 推荐速览
-  客户：{client_name} | 风险等级：{risk_level} | 金额：{amount} | 期限：{horizon}
+  客户：{client_name} | 风险等级：{risk_level} | 金额：{amount_wan}万元 | 期限：{horizon}
 ══════════════════════════════════════════
 
   {risk_match_light} | {qa_verdict} | {confidence_label}

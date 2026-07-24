@@ -22,28 +22,28 @@ const ROOT = join(__dirname, "..");
 const PLATFORMS = {
   claude: {
     name: "Claude Code",
-    destDir: ".claude/skills/foliopulse",
-    instructions: "在 Claude Code 中输入 /foliopulse 或描述客户情况即可激活技能。",
+    skillsDir: ".claude/skills",
+    instructions: "在 Claude Code 中描述客户情况（如\"R3客户50万想做基金\"）即可激活 FolioPulse 技能链。",
   },
   codex: {
     name: "OpenAI Codex",
-    destDir: ".codex/skills/foliopulse",
-    instructions: "在 Codex 中引用 foliopulse 技能目录即可使用。",
+    skillsDir: ".codex/skills",
+    instructions: "在 Codex 中描述客户情况即可激活 FolioPulse 技能链。",
   },
   cursor: {
     name: "Cursor",
-    destDir: ".cursor/skills/foliopulse",
-    instructions: "在 Cursor 中加载 .cursor/skills/foliopulse 目录。",
+    skillsDir: ".cursor/skills",
+    instructions: "在 Cursor 中描述客户情况即可激活 FolioPulse 技能链。",
   },
   gemini: {
     name: "Gemini CLI",
-    destDir: ".gemini/skills/foliopulse",
-    instructions: "在 Gemini CLI 中加载技能目录。",
+    skillsDir: ".gemini/skills",
+    instructions: "在 Gemini CLI 中描述客户情况即可激活 FolioPulse 技能链。",
   },
   opencode: {
     name: "OpenCode",
-    destDir: ".opencode/skills/foliopulse",
-    instructions: "在 OpenCode 中加载技能目录。",
+    skillsDir: ".opencode/skills",
+    instructions: "在 OpenCode 中描述客户情况即可激活 FolioPulse 技能链。",
   },
 };
 
@@ -102,34 +102,26 @@ function install(opts) {
   }
 
   const cwd = opts.dest || process.cwd();
-  const destBase = join(cwd, cfg.destDir);
+  const skillsDest = join(cwd, cfg.skillsDir);
 
   console.log(`\n  FolioPulse v${getVersion()}`);
   console.log(`  目标平台: ${cfg.name}`);
-  console.log(`  安装路径: ${destBase}\n`);
+  console.log(`  安装路径: ${cwd}\n`);
 
-  // 复制技能文件
+  // 复制技能文件到技能发现目录（平铺，每个技能一个目录）
   const skillsSrc = join(ROOT, ".claude", "skills");
-  copyDir(skillsSrc, destBase);
-  console.log("  [OK] 技能文件已复制");
+  for (const entry of readdirSync(skillsSrc)) {
+    if (statSync(join(skillsSrc, entry)).isDirectory()) {
+      copyDir(join(skillsSrc, entry), join(skillsDest, entry));
+      console.log(`  [OK] 技能已安装: ${cfg.skillsDir}/${entry}`);
+    }
+  }
 
-  // 复制引擎文档
-  const engineSrc = join(ROOT, "engine");
-  const engineDest = join(cwd, cfg.destDir, "engine");
-  copyDir(engineSrc, engineDest);
-  console.log("  [OK] 引擎文档已复制");
-
-  // 复制模板
-  const templatesSrc = join(ROOT, "templates");
-  const templatesDest = join(cwd, cfg.destDir, "templates");
-  copyDir(templatesSrc, templatesDest);
-  console.log("  [OK] 模板已复制");
-
-  // 复制画像
-  const profilesSrc = join(ROOT, "profiles");
-  const profilesDest = join(cwd, cfg.destDir, "profiles");
-  copyDir(profilesSrc, profilesDest);
-  console.log("  [OK] 画像模板已复制");
+  // 复制引擎文档、模板、画像到项目根目录（SKILL.md 按相对路径引用）
+  for (const dir of ["engine", "templates", "profiles"]) {
+    copyDir(join(ROOT, dir), join(cwd, dir));
+    console.log(`  [OK] ${dir}/ 已复制`);
+  }
 
   console.log(`\n  安装完成！`);
   console.log(`  ${cfg.instructions}\n`);
@@ -138,9 +130,9 @@ function install(opts) {
 function getVersion() {
   try {
     const pkg = JSON.parse(readFileSync(join(ROOT, "package.json"), "utf-8"));
-    return pkg.version || "0.1.1";
+    return pkg.version || "0.1.3";
   } catch {
-    return "0.1.1";
+    return "0.1.3";
   }
 }
 

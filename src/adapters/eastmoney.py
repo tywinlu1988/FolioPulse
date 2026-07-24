@@ -127,8 +127,9 @@ class EastMoneyAdapter(BaseAdapter):
     def fetch_financial_data(
         self, product_code: str, data_points: List[str]
     ) -> Dict[str, float]:
+        """返回请求的数据点。缺失的数据点返回 None（而非 0.0）."""
         all_data = self._MOCK_FINANCIALS.get(product_code, {})
-        return {dp: all_data.get(dp, 0.0) for dp in data_points}
+        return {dp: all_data.get(dp) for dp in data_points}
 
     def fetch_market_signal(
         self, product_code: str, signal_ids: List[str]

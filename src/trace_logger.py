@@ -95,6 +95,7 @@ class TraceLogger:
 
     def generate(self, output_dir: str) -> str:
         """生成回溯日志.md，返回文件路径."""
+        os.makedirs(output_dir, exist_ok=True)
         now = datetime.now().isoformat()
         lines = [
             f"# 回溯日志 — {self.input_snapshot.get('profile_id', 'UNKNOWN')}",
@@ -137,12 +138,23 @@ class TraceLogger:
                 f"| {s['product_code']} | {s['factor_id']} | {s['raw']} | "
                 f"{s['normalized']} | {s['weight']} | {s['weighted']} |"
             )
-        lines.extend(["", "## 五、合规校验", ""])
+        lines.extend(["", "## 五、双轨验证", ""])
+        if self.dual_track:
+            lines.append("| 产品代码 | 轨 A（基本面） | 轨 B（市场信号） | 冲突标记 | 最终采用 |")
+            lines.append("|----------|--------------|----------------|---------|---------|")
+            for d in self.dual_track:
+                lines.append(
+                    f"| {d.get('code','')} | {d.get('track_a','')} | {d.get('track_b','')} | "
+                    f"{d.get('conflict','')} | {d.get('final','')} |"
+                )
+        else:
+            lines.append("> 本版本未执行双轨验证（v0.4.0 计划实装）")
+        lines.extend(["", "## 六、合规校验", ""])
         lines.append("| 校验项 | 结果 | 详情 |")
         lines.append("|--------|------|------|")
         for c in self.compliance_checks:
             lines.append(f"| {c.get('gate','')} | {c.get('status','')} | {c.get('detail','')} |")
-        lines.extend(["", "## 六、客户经理干预记录", ""])
+        lines.extend(["", "## 七、客户经理干预记录", ""])
         lines.append("| 时间 | 操作类型 | 对象 | 操作前值 | 操作后值 |")
         lines.append("|------|---------|------|---------|---------|")
         for rm in self.rm_interventions:
@@ -152,13 +164,13 @@ class TraceLogger:
             )
         if not self.rm_interventions:
             lines.append("| — | 无干预记录 | — | — | — |")
-        lines.extend(["", "## 七、输出清单", ""])
+        lines.extend(["", "## 八、输出清单", ""])
         lines.append("| 文件名 | 路径 | 生成状态 |")
         lines.append("|--------|------|---------|")
         for o in self.output_manifest:
             status = "OK" if o.get("status") else "FAIL"
             lines.append(f"| {o.get('file','')} | {o.get('path','')} | {status} |")
-        lines.extend(["", "## 八、引擎元数据", ""])
+        lines.extend(["", "## 九、引擎元数据", ""])
         for k, v in self.engine_metadata.items():
             lines.append(f"- **{k}**：{v}")
         lines.append(f"- **总耗时**：—")

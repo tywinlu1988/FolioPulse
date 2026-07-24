@@ -104,19 +104,16 @@ def check_templates_no_sample_data():
     errors = []
     suspicious_patterns = [
         (r"贵州茅台", "示例产品名"),
-        (r"8\.5", "示例评分"),
         (r"500000", "示例金额"),
         (r"张经理", "示例人名"),
+        (r"李客户", "示例人名"),
     ]
     for tmpl in TEMPLATES_DIR.glob("*.md"):
         text = tmpl.read_text(encoding="utf-8")
         for pattern, desc in suspicious_patterns:
-            if re.search(pattern, text):
-                # 检查是否在占位符外
-                lines = text.split("\n")
-                for i, line in enumerate(lines):
-                    if re.search(pattern, line) and "{" not in line:
-                        errors.append(f"{tmpl.name}:{i+1} 疑似示例数据 '{desc}'")
+            for i, line in enumerate(text.split("\n"), 1):
+                if re.search(pattern, line):
+                    errors.append(f"{tmpl.name}:{i} 疑似示例数据 '{desc}'")
     return errors
 
 

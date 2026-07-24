@@ -16,11 +16,11 @@ risk_match_matrix:
     with_warning: []
   R3:
     allowed: [R1, R2, R3]
-    prohibited: [R4, R5]
+    prohibited: [R5]
     with_warning: [R4]
   R4:
     allowed: [R1, R2, R3, R4]
-    prohibited: [R5]
+    prohibited: []
     with_warning: [R5]
   R5:
     allowed: [R1, R2, R3, R4, R5]

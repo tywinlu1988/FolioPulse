@@ -3,7 +3,7 @@
 from datetime import datetime
 from typing import Dict, List, Tuple, Optional
 from src.adapters.base import BaseAdapter
-from src.path_sheet import ProfileSheet, RecommendArtifact, QAVerdict, Mode
+from src.path_sheet import ProfileSheet, RecommendArtifact, QAVerdict
 from src.filter_engine import FilterEngine
 from src.composite_scorer import CompositeScorer
 from src.suitability_validator import SuitabilityValidator
@@ -24,10 +24,16 @@ class Pipeline:
         self.tracer = TraceLogger()
 
     def run(
-        self, profile: ProfileSheet
+        self, profile: ProfileSheet, output_dir: Optional[str] = None
     ) -> Tuple[RecommendArtifact, QAVerdict]:
-        """执行完整推荐管道."""
+        """执行完整推荐管道.
+
+        Args:
+            profile: 客户画像表
+            output_dir: 若提供，管道结束后将回溯日志落盘到该目录
+        """
         self.tracer.set_input(profile)
+        self.tracer.engine_metadata["mode"] = profile.mode.value
 
         # Step 1: 拉取产品（按画像适用的产品类型）
         all_products = []
@@ -52,7 +58,7 @@ class Pipeline:
         artifact = RecommendArtifact(
             path_id=profile.path_id,
             profile_id=profile.profile_id,
-            mode=Mode.A,
+            mode=profile.mode,
             recommendations=ranked,
             portfolio_summary=self._build_portfolio_summary(ranked),
             data_completeness=self._build_completeness(ranked),
@@ -62,6 +68,9 @@ class Pipeline:
         # Step 5: 校验
         verdict = self.validator.validate(artifact, profile)
         self.tracer.log_compliance(verdict.gate_results)
+
+        if output_dir:
+            self.tracer.generate(output_dir)
 
         return artifact, verdict
 

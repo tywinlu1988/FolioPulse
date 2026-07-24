@@ -87,46 +87,39 @@ PRODUCT_FACTOR_MAP = {
 }
 
 
-def _normalize_linear(value: float, thresholds: List[tuple]) -> float:
-    """线性归一化到 0-10."""
-    for lo, hi, score_lo in thresholds:
-        if hi is None:
-            if value >= lo:
-                return float(score_lo)
-            break
-        if lo <= value <= hi:
+def _normalize_threshold(value: float, thresholds: List[tuple]) -> float:
+    """统一阈值归一化：区间内线性插值，越界 clamp 到最近区间端点.
+
+    thresholds 格式: [(lo, hi, score_at_lo)]
+    区间 hi 端点的分数 = 下一区间的 score_at_lo（最后一区间为自身分数）.
+    score 可为升序（direct 指标）或降序（inverse 指标），逻辑通用.
+    """
+    if not thresholds:
+        return 5.0
+    first_lo, first_score = thresholds[0][0], float(thresholds[0][2])
+    if value <= first_lo:
+        return round(first_score, 2)
+    for i, (lo, hi, score_lo) in enumerate(thresholds):
+        if hi is not None and value <= hi:
+            s_lo = float(score_lo)
+            s_hi = float(thresholds[i + 1][2]) if i + 1 < len(thresholds) else s_lo
             frac = (value - lo) / (hi - lo) if hi != lo else 0.5
-            # find score_hi
-            for lo2, hi2, score_hi in thresholds:
-                if lo2 == lo and hi2 == hi:
-                    continue
-            # simple: use the next band's score_lo as target
-            next_score = 10.0
-            for lo2, hi2, s2 in thresholds:
-                if lo2 > lo:
-                    next_score = float(s2)
-                    break
-            return round(float(score_lo) + frac * (next_score - float(score_lo)), 2)
-    return 5.0
+            return round(s_lo + frac * (s_hi - s_lo), 2)
+    # 超过最后一个区间上界：clamp 到末端分数
+    return round(float(thresholds[-1][2]), 2)
+
+
+def _normalize_linear(value: float, thresholds: List[tuple]) -> float:
+    """正向线性归一化（高值 → 高分）."""
+    return _normalize_threshold(value, thresholds)
 
 
 def _normalize_inverse(value: float, thresholds: List[tuple]) -> float:
-    """反向线性归一化：低值→高分，高值→低分.
+    """反向归一化（低值 → 高分）.
 
-    在 thresholds 区间内做反向线性插值。
-    thresholds 格式: [(lo, hi, score_at_lo)]
-    score_at_lo 是 lo 端点的分数，hi 端点的分数为下一区间的 score_at_lo。
+    阈值中的 score 已为降序（如最大回撤），直接复用统一插值逻辑.
     """
-    for i, (lo, hi, score_lo) in enumerate(thresholds):
-        if lo <= value <= hi:
-            # 找到 hi 端点的分数
-            if i + 1 < len(thresholds):
-                score_hi = thresholds[i + 1][2]
-            else:
-                score_hi = 0.0  # 最后一个区间 hi → 0
-            frac = (value - lo) / (hi - lo) if hi != lo else 0.5
-            return round(score_lo - frac * (score_lo - score_hi), 2)
-    return 5.0
+    return _normalize_threshold(value, thresholds)
 
 
 def _normalize_percentile_inverse(value: float) -> float:
@@ -215,15 +208,22 @@ class CompositeScorer:
     def _get_raw_value(
         self, product: Dict[str, Any], factor: Dict, adapter: Optional[BaseAdapter]
     ) -> Optional[float]:
-        """获取因子原始值."""
+        """获取因子原始值。无数据返回 None（不以 0.0 作为缺失哨兵）."""
         data_point = factor.get("data_point", "")
         # First try product dict directly
-        if data_point in product:
-            return float(product[data_point])
+        if data_point in product and product[data_point] is not None:
+            try:
+                return float(product[data_point])
+            except (TypeError, ValueError):
+                return None
         # Then try adapter
         if adapter:
             code = product.get("code", "")
             data = adapter.fetch_financial_data(code, [data_point])
-            if data_point in data and data[data_point] != 0.0:
-                return float(data[data_point])
+            value = data.get(data_point)
+            if value is not None:
+                try:
+                    return float(value)
+                except (TypeError, ValueError):
+                    return None
         return None
