@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!-- @template: templates/问答清单.html @engine-version: v0.3.0 -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>客户问答清单 — {client_name}</title>
+<link rel="stylesheet" href="base.css">
+</head>
+<body>
+<div class="report">
+
+  <header class="hero">
+    <div class="report-tag">FolioPulse · 问答清单</div>
+    <h1>{client_name} 客户问答清单</h1>
+    <div class="meta">
+      <span><strong>编号</strong> {folio_id}</span>
+      <span><strong>日期</strong> {date}</span>
+      <span><strong>客户经理</strong> {rm_name}</span>
+    </div>
+  </header>
+
+  <section>
+    <h2>一、收益类问题</h2>
+    {qa_yield_blocks}
+  </section>
+
+  <section>
+    <h2>二、风险类问题</h2>
+    {qa_risk_blocks}
+  </section>
+
+  <section>
+    <h2>三、比较类问题</h2>
+    {qa_compare_blocks}
+  </section>
+
+  <section>
+    <h2>四、操作类问题</h2>
+    {qa_operation_blocks}
+  </section>
+
+  <section>
+    <h2>五、异议处理</h2>
+    {qa_objection_blocks}
+  </section>
+
+  <!-- 问答块结构参考（引擎按此结构生成内容块填充上方各节）：
+  <div class="qa-block">
+    <div class="q">Q: {问题}</div>
+    <div class="a">{建议回答要点}</div>
+    <div class="note">参考数据：{reference_data}　|　应答禁忌：{taboo}</div>
+  </div>
+  -->
+
+  <footer class="footer">
+    本清单由 FolioPulse 生成，供客户经理内部参考使用，请勿直接转交客户。
+  </footer>
+
+</div>
+</body>
+</html>

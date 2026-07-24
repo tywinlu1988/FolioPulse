@@ -108,7 +108,7 @@ def check_templates_no_sample_data():
         (r"张经理", "示例人名"),
         (r"李客户", "示例人名"),
     ]
-    for tmpl in TEMPLATES_DIR.glob("*.md"):
+    for tmpl in TEMPLATES_DIR.glob("*.html"):
         text = tmpl.read_text(encoding="utf-8")
         for pattern, desc in suspicious_patterns:
             for i, line in enumerate(text.split("\n"), 1):

@@ -75,12 +75,12 @@ output_dir:
   pattern: "folio-{date}-{client_name}/"
   files:
     L1:
-      - 推荐清单.md
+      - 推荐清单.html
     L2:
-      - 标的报告-{product_name}.md
-      - 问答清单.md
-      - 话术清单.md
-      - 配置建议书.md
+      - 标的报告-{product_name}.html
+      - 问答清单.html
+      - 话术清单.html
+      - 配置建议书.html
     trace:
       - 回溯日志.md
 ```

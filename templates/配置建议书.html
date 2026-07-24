@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!-- @template: templates/配置建议书.html @engine-version: v0.3.0 -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>资产配置建议书 — {client_name}</title>
+<link rel="stylesheet" href="base.css">
+</head>
+<body>
+<div class="report">
+
+  <header class="hero">
+    <div class="report-tag">FolioPulse · 配置建议书</div>
+    <h1>资产配置建议书</h1>
+    <div class="meta">
+      <span><strong>编号</strong> {folio_id}</span>
+      <span><strong>日期</strong> {date}</span>
+    </div>
+  </header>
+
+  <section>
+    <p style="margin-bottom:20px">尊敬的 <strong>{client_name}</strong>：</p>
+    <p>根据您的投资偏好和风险承受能力，我们为您制定了以下资产配置方案。</p>
+  </section>
+
+  <section>
+    <h2>一、客户画像</h2>
+    <table>
+      <tbody>
+        <tr><td style="width:22%"><strong>风险等级</strong></td><td>{risk_level}</td></tr>
+        <tr><td><strong>投资金额</strong></td><td>{amount_wan} 万元</td></tr>
+        <tr><td><strong>投资期限</strong></td><td>{horizon}</td></tr>
+        <tr><td><strong>投资目标</strong></td><td>{goal}</td></tr>
+        <tr><td><strong>流动性需求</strong></td><td>{liquidity}</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>二、配置逻辑</h2>
+    <p>{allocation_rationale}</p>
+  </section>
+
+  <section>
+    <h2>三、推荐组合</h2>
+    <table>
+      <thead><tr><th>资产类型</th><th>配置比例</th><th>推荐标的</th></tr></thead>
+      <tbody>
+        {allocation_rows}
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>四、推荐标的详情</h2>
+    {product_detail_blocks}
+  </section>
+
+  <section>
+    <h2>五、风险提示</h2>
+    <div class="alert alert-danger">
+      1. 本配置方案基于当前市场环境制定，市场变化可能导致方案需要调整<br>
+      2. 投资有风险，过往业绩不预示未来表现<br>
+      3. 建议定期（至少每季度）检视配置方案<br>
+      4. {additional_risk_notes}
+    </div>
+  </section>
+
+  <section>
+    <h2>六、免责声明</h2>
+    <p style="font-size:12.5px;color:var(--color-neutral)">
+      本建议书由 FolioPulse 智能推荐引擎生成，经客户经理 {rm_name} 审核确认。
+      本建议书不构成任何形式的投资承诺或收益保证。
+      投资决策由客户自行做出，相关风险由客户自行承担。
+    </p>
+  </section>
+
+  <div class="signature">
+    <div class="sig-line">
+      <div class="label">客户经理签名 / 日期</div>
+      <div class="line"></div>
+    </div>
+    <div class="sig-line">
+      <div class="label">客户确认签名 / 日期</div>
+      <div class="line"></div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    本建议书由 FolioPulse 生成
+  </footer>
+
+</div>
+</body>
+</html>

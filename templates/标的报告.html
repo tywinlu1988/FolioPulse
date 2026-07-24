@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!-- @template: templates/标的报告.html @engine-version: v0.3.0 -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{product_name}（{product_code}）深度分析报告</title>
+<link rel="stylesheet" href="base.css">
+</head>
+<body>
+<div class="report">
+
+  <header class="hero">
+    <div class="report-tag">FolioPulse · 标的报告</div>
+    <h1>{product_name}<span style="font-size:16px;color:var(--color-neutral);font-weight:400">　{product_code}</span></h1>
+    <div class="meta">
+      <span><strong>类型</strong> {product_type}</span>
+      <span><strong>风险等级</strong> {risk_level}</span>
+      <span><strong>综合评分</strong> <span class="score {score_class}">{composite_score}</span> / 10</span>
+      <span><strong>评分等级</strong> {score_label}</span>
+      <span><strong>日期</strong> {date}</span>
+    </div>
+  </header>
+
+  <section>
+    <h2>一、基本信息</h2>
+    <table>
+      <tbody>
+        {basic_info_rows}
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>二、业绩概览</h2>
+    <table>
+      <thead><tr><th>指标</th><th>数值</th><th>同类排名</th></tr></thead>
+      <tbody>
+        {performance_rows}
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>三、风险指标</h2>
+    <table>
+      <thead><tr><th>指标</th><th>数值</th><th>评估</th></tr></thead>
+      <tbody>
+        {risk_indicator_rows}
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>四、因子得分拆解</h2>
+    <table>
+      <thead>
+        <tr><th>因子</th><th>原始值</th><th>归一化</th><th>权重</th><th>加权分</th></tr>
+      </thead>
+      <tbody>
+        {factor_rows}
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>五、适配场景</h2>
+    <div class="card">
+      <div class="card-title">适合客户类型</div>
+      <div>{suitable_client_types}</div>
+    </div>
+    <div class="card">
+      <div class="card-title">推荐配置比例</div>
+      <div>{recommended_allocation}</div>
+    </div>
+    <div class="card">
+      <div class="card-title">建议持有期限</div>
+      <div>{recommended_holding_period}</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>六、风险提示</h2>
+    <div class="alert alert-danger">
+      1. {risk_note_1}<br>
+      2. {risk_note_2}<br>
+      3. 历史业绩不代表未来表现
+    </div>
+  </section>
+
+  <footer class="footer">
+    本报告由 FolioPulse 生成，仅供参考，不构成投资建议。
+  </footer>
+
+</div>
+</body>
+</html>

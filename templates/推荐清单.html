@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<!-- @template: templates/推荐清单.html @engine-version: v0.3.0 -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>投资标的推荐清单 — {client_name}</title>
+<link rel="stylesheet" href="base.css">
+</head>
+<body>
+<div class="report">
+
+  <header class="hero">
+    <div class="report-tag">FolioPulse · 推荐清单</div>
+    <h1>{client_name} 投资标的推荐清单</h1>
+    <div class="meta">
+      <span><strong>编号</strong> {folio_id}</span>
+      <span><strong>日期</strong> {date}</span>
+      <span><strong>客户经理</strong> {rm_name}</span>
+      <span><strong>质检</strong> <span class="light {qa_light_class}">{qa_verdict}</span></span>
+      <span><strong>置信度</strong> {confidence}</span>
+    </div>
+  </header>
+
+  <section>
+    <h2>一、客户画像摘要</h2>
+    <table>
+      <tbody>
+        <tr><td style="width:22%"><strong>风险等级</strong></td><td>{risk_level}</td></tr>
+        <tr><td><strong>投资金额</strong></td><td>{amount_wan} 万元</td></tr>
+        <tr><td><strong>投资期限</strong></td><td>{horizon}</td></tr>
+        <tr><td><strong>投资目标</strong></td><td>{goal}</td></tr>
+        <tr><td><strong>流动性需求</strong></td><td>{liquidity}</td></tr>
+        <tr><td><strong>特殊约束</strong></td><td>{constraints}</td></tr>
+        <tr><td><strong>投资者类型</strong></td><td>{investor_type}</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>二、推荐组合概览</h2>
+    <table>
+      <thead>
+        <tr><th>资产类型</th><th>建议配比</th><th>推荐数量</th></tr>
+      </thead>
+      <tbody>
+        {asset_allocation_rows}
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>三、推荐标的清单</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:5%">排名</th><th style="width:9%">代码</th><th>名称</th>
+          <th style="width:10%">类型</th><th style="width:8%">评分</th>
+          <th style="width:8%">风险</th><th style="width:10%">匹配</th><th>推荐理由</th>
+        </tr>
+      </thead>
+      <tbody>
+        {recommendation_rows}
+      </tbody>
+    </table>
+    <div class="alert" style="margin-top:14px">{warnings_block}</div>
+  </section>
+
+  <section>
+    <h2>四、打分明细</h2>
+    {factor_detail_blocks}
+  </section>
+
+  <section>
+    <h2>五、组合风险分析</h2>
+    <table>
+      <thead><tr><th>指标</th><th>值</th><th>评估</th></tr></thead>
+      <tbody>
+        <tr><td>行业集中度</td><td>{industry_concentration}</td><td>{industry_assessment}</td></tr>
+        <tr><td>评级分布</td><td>{rating_distribution}</td><td>{rating_assessment}</td></tr>
+        <tr><td>期限结构</td><td>{maturity_structure}</td><td>{maturity_assessment}</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>六、风险提示</h2>
+    <div class="alert alert-danger">
+      1. 本推荐基于截至 {data_date} 的市场数据，市场变化可能导致推荐失效<br>
+      2. 历史业绩不代表未来表现<br>
+      3. {additional_risk_notes}
+    </div>
+  </section>
+
+  <footer class="footer">
+    本报告由 FolioPulse 生成，仅供参考，不构成投资建议。投资有风险，入市需谨慎。
+  </footer>
+
+</div>
+</body>
+</html>

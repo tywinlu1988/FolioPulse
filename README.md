@@ -4,7 +4,7 @@
 输入客户画像，输出结构化推荐列表及全套客户交付物料。  
 以 Agent Skill 形式分发，兼容 **Claude Code**、**Codex**、**Cursor**、**Gemini**、**OpenCode**。
 
-[![Version](https://img.shields.io/badge/version-0.2.0-blue)](https://github.com/tywinlu1988/FolioPulse)
+[![Version](https://img.shields.io/badge/version-0.3.0-blue)](https://github.com/tywinlu1988/FolioPulse)
 [![License](https://img.shields.io/badge/license-AGPL--3.0%20%2B%20Commercial-green)](./LICENSE)
 [![Python](https://img.shields.io/badge/python-3.11%2B-blue)](./pyproject.toml)
 
@@ -94,11 +94,11 @@ Step 3: 双轨验证         Step 4: 排序+理由
 
 ```
 folio-{日期}-{客户姓名}/
-├── 推荐清单.md
-├── 标的报告-{产品名}.md
-├── 问答清单.md
-├── 话术清单.md
-├── 配置建议书.md
+├── 推荐清单.html
+├── 标的报告-{产品名}.html
+├── 问答清单.html
+├── 话术清单.html
+├── 配置建议书.html
 └── 回溯日志.md
 ```
 
@@ -163,9 +163,10 @@ folio-{日期}-{客户姓名}/
 | **v0.1.2** ✅ | 标准 Skill 目录结构，过程文件清理，npx 修复 | 已完成 |
 | **v0.1.3** ✅ | Skill 链质检修复（预检/数据拉取/Mode B/自愈/两段式交付） | 已完成 |
 | **v0.1.4** ✅ | 深度审查修复（归一化 clamp/金额解析/约束映射/npx 布局） | 已完成 |
-| **v0.2.0** ✅ | 单一真相源实装（运行时解析引擎文档）+ 双轨验证实装 + 置信度规则 | 当前版本 |
-| **v0.3.0** | RM 交互式调整（换产品/改配比/加备注），备选池，黑名单/投资者类型过滤，推荐理由生成 | 计划中 |
-| **v0.4.0** | Mode B 外部数据（Wind），多适配器全覆盖（天天基金等） | 计划中 |
+| **v0.2.0** ✅ | 单一真相源实装（运行时解析引擎文档）+ 双轨验证实装 + 置信度规则 | 已完成 |
+| **v0.3.0** ✅ | 全类型 HTML 报告模板（藏蓝/琥珀金专业配色，可打印） | 当前版本 |
+| **v0.4.0** | RM 交互式调整，备选池，黑名单/投资者类型过滤，推荐理由生成 | 计划中 |
+| **v0.5.0** | Mode B 外部数据（Wind），多适配器全覆盖（天天基金等） | 计划中 |
 | **v1.0.0** | 生产可用，完整测试覆盖，合规审计报告，商业授权就绪 | 计划中 |
 
 ---

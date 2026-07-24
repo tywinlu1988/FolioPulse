@@ -110,7 +110,7 @@ description: >
 
 #### [1] 查看完整推荐列表
 
-按 `templates/推荐清单.md` 格式展示全部推荐产品的完整信息：
+按 `templates/推荐清单.html` 格式展示全部推荐产品的完整信息：
 - 完整排名表（含综合评分、风险匹配、近一年收益、推荐理由）
 - 每只产品的打分明细表（因子 / 原始值 / 归一化值 / 权重 / 加权分 / 数据来源）
 - 组合风险分析（行业集中度 / 评级分布）
@@ -149,13 +149,13 @@ description: >
 
 | 文件 | 模板 | 数据来源 |
 |------|------|---------|
-| `推荐清单.md` | `templates/推荐清单.md` | Recommend Artifact + Profile Sheet |
-| `标的报告-{name_1}.md` | `templates/标的报告.md` | Top 1 产品详情 + 因子得分 |
-| `标的报告-{name_2}.md` | `templates/标的报告.md` | Top 2 产品详情 + 因子得分 |
-| `标的报告-{name_3}.md` | `templates/标的报告.md` | Top 3 产品详情 + 因子得分 |
-| `问答清单.md` | `templates/问答清单.md` | 根据推荐产品类型 + 客户画像生成 FAQ |
-| `话术清单.md` | `templates/话术清单.md` | 根据推荐组合 + 客户画像生成沟通脚本 |
-| `配置建议书.md` | `templates/配置建议书.md` | 画像表 + 推荐制品 + 组合分析 |
+| `推荐清单.html` | `templates/推荐清单.html` | Recommend Artifact + Profile Sheet |
+| `标的报告-{name_1}.html` | `templates/标的报告.html` | Top 1 产品详情 + 因子得分 |
+| `标的报告-{name_2}.html` | `templates/标的报告.html` | Top 2 产品详情 + 因子得分 |
+| `标的报告-{name_3}.html` | `templates/标的报告.html` | Top 3 产品详情 + 因子得分 |
+| `问答清单.html` | `templates/问答清单.html` | 根据推荐产品类型 + 客户画像生成 FAQ |
+| `话术清单.html` | `templates/话术清单.html` | 根据推荐组合 + 客户画像生成沟通脚本 |
+| `配置建议书.html` | `templates/配置建议书.html` | 画像表 + 推荐制品 + 组合分析 |
 | `回溯日志.md` | 由 trace_logger 逻辑生成 | 全流程记录（9 节） |
 
 ### S4 残留自查（生成后必经）
