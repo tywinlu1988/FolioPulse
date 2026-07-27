@@ -4,7 +4,7 @@
 输入客户画像，输出结构化推荐列表及全套客户交付物料。  
 以 Agent Skill 形式分发，兼容 **Claude Code**、**Codex**、**Cursor**、**Gemini**、**OpenCode**。
 
-[![Version](https://img.shields.io/badge/version-0.3.0-blue)](https://github.com/tywinlu1988/FolioPulse)
+[![Version](https://img.shields.io/badge/version-0.3.1-blue)](https://github.com/tywinlu1988/FolioPulse)
 [![License](https://img.shields.io/badge/license-AGPL--3.0%20%2B%20Commercial-green)](./LICENSE)
 [![Python](https://img.shields.io/badge/python-3.11%2B-blue)](./pyproject.toml)
 

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "foliopulse-engine"
-version = "0.3.0"
+version = "0.3.1"
 description = "FolioPulse — AI 驱动的投资标的推荐引擎"
 requires-python = ">=3.11"
 dependencies = ["pyyaml>=6.0"]

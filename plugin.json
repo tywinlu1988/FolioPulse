@@ -1,7 +1,7 @@
 {
   "name": "foliopulse",
   "description": "AI 驱动的投资标的推荐引擎。输入客户画像，输出结构化推荐列表及客户交付物料。",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "author": { "name": "Tywin Lu", "email": "tywinlu1988@users.noreply.github.com" },
   "homepage": "https://github.com/tywinlu1988/FolioPulse",
   "repository": "https://github.com/tywinlu1988/FolioPulse",

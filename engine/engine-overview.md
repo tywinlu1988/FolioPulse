@@ -1,6 +1,6 @@
 # FolioPulse 引擎总览
 
-> 版本：v0.1.0 | 所有数值阈值的唯一来源
+> 版本：v0.3.0 | 所有数值阈值的唯一来源
 
 ## 文档索引
 
@@ -16,10 +16,10 @@
 
 ## 架构概览
 
-推荐管道的四个步骤：
+推荐管道的五个步骤：
 
 ```
-规则过滤 → 多因子打分 → 双轨验证 → 排序+理由生成
+数据拉取 → 规则过滤 → 多因子打分 → 双轨验证 → 排序+理由生成
 ```
 
 每一步的具体逻辑定义在对应的引擎文档中。
@@ -29,8 +29,12 @@
 ```yaml
 pipeline:
   steps:
+    - id: fetch
+      doc: engine/data-architecture.md
+      produces: product_list
     - id: filter
       doc: engine/filter-rules.md
+      consumes: product_list
       produces: filtered_list
     - id: score
       doc: engine/scoring-framework.md
